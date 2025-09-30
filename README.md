@@ -9,7 +9,7 @@ HFTP (Hierarchical Frequency Tagging Probe) investigates syntactic structure pro
 ```
 HFTP/
 ├── data/                           # Experimental datasets
-├── correlation_neurips.py          # Model-Brain alignment analysis
+├── correlation.py                  # Model-Brain alignment analysis
 ├── Llama2_synactic_corpus.py       # Syntactic corpus analysis for LLMs
 ├── definitions.py                  # Utility functions and definitions
 └── README.md                       # This file
@@ -20,41 +20,33 @@ HFTP/
 The `data/` directory contains experimental datasets for syntactic analysis in LLMs. For Model-Brain alignment experiments, we use hierarchical linguistic stimuli from ["The cortical maps of hierarchical linguistic structures during speech perception"](https://doi.org/10.1093/cercor/bhy191). These alignment stimuli follow a similar syntactic structure to the Chinese syntactic corpus (four-syllable sentences) but differ in semantic content.
 
 ### Syntactic Corpora
-- **`Chinese_syntactic_corpus.csv`**: Chinese four-syllable syntactic corpus for LLM analysis
-  - Contains structured Chinese phrases (e.g., "老牛耕地", "朋友请客")
-  - Used for extracting syntactic neural representations in LLMs
+- **`Chinese_syntactic_corpus.csv`**: Chinese four-syllable syntactic corpus designed for extracting syntactic neural representations in LLMs
+  - **Example**: "老牛耕地", "朋友请客"
 
-- **`English_syntactic_corpus.csv`**: English four-word syntactic corpus for LLM analysis
-  - Contains structured English phrases (e.g., "fat rat sensed fear", "wood shelf holds cans")
-  - Parallel corpus design for cross-linguistic syntactic analysis
+- **`English_syntactic_corpus.csv`**: English four-word syntactic corpus with parallel design for cross-linguistic syntactic analysis
+  - **Example**: "fat rat sensed fear", "wood shelf holds cans"
 
 ### Natural Language Corpora
 
 #### Chinese Natural Language Data
-- **`Chinese_8-natural.csv`**: 8-character Chinese natural language corpus
-  - Contains diverse text types: everyday dialogue, news reports, literary excerpts, poetry
-  - Example: "森林火势得到控制。", "列车准点抵达站台。"
+- **`Chinese_8-natural.csv`**: 8-character Chinese natural language corpus containing diverse text types including everyday dialogue, news reports, literary excerpts, and poetry
+  - **Example**: "森林火势得到控制。", "列车准点抵达站台。"
 
-- **`Chinese_9-natural.csv`**: 9-character Chinese natural language corpus
-  - Extended natural language samples for frequency analysis
-  - Same text types as 8-character corpus with longer sequences
+- **`Chinese_9-natural.csv`**: 9-character Chinese natural language corpus with extended samples for frequency analysis, covering the same text types as the 8-character corpus
+  - **Example**: "临床试验数据公布了。", "姐姐，这裙子有蓝色吗？"
 
-- **`Chinese_8-zhwiki.csv`**: 8-character Chinese Wikipedia corpus
-  - Extracted from Chinese Wikipedia articles
-  - Provides encyclopedia-style natural language data
+- **`Chinese_8-zhwiki.csv`**: 8-character Chinese Wikipedia corpus providing encyclopedia-style natural language data extracted from Chinese Wikipedia articles
+  - **Example**: "这个发现归功于他。", "人身牛首，長於姜水。"
 
 #### English Natural Language Data
-- **`English_8-naturale.csv`**: 8-word English natural language corpus
-  - Contains everyday dialogue, news reports, literary prose
-  - Example: "With malice toward none, with charity toward all."
+- **`English_8-naturale.csv`**: 8-word English natural language corpus containing everyday dialogue, news reports, and literary prose
+  - **Example**: "With malice toward none, with charity toward all.", ""Tonight, shall we watch the meteor shower together?""
 
-- **`English_9-naturale.csv`**: 9-word English natural language corpus
-  - Extended English natural language samples
-  - Parallel design to Chinese 9-character corpus
+- **`English_9-naturale.csv`**: 9-word English natural language corpus with extended samples, designed parallel to the Chinese 9-character corpus
+  - **Example**: "Clinical trial data were publicly released this morning nationwide.", "Shall we share sushi together tonight by the river?"
 
-- **`English_8-enwiki.csv`**: 8-word English Wikipedia corpus
-  - Extracted from English Wikipedia articles
-  - Counterpart to Chinese Wikipedia corpus
+- **`English_8-enwiki.csv`**: 8-word English Wikipedia corpus extracted from English Wikipedia articles, serving as the counterpart to the Chinese Wikipedia corpus
+  - **Example**: "World and Its Peoples: Eastern and Southern Asia.", "Cognitive systems engineering: New wine in new bottles."
 
 ## Running HFTP experiments
 
@@ -62,9 +54,9 @@ We provide three main analysis scripts for syntactic representation extraction, 
 
 ### Syntactic Analysis with LLMs
 
-**Note**: This repository includes Llama 2 model implementation as an example. To run syntactic analysis on other models, simply modify the MLP layer activation extraction method in the `process_text_and_accumulate_activations()` function and adapt your model paths. Refer to `correlation.py` for examples of other model architectures.
-
 **`Llama2_synactic_corpus.py`**: Extracts syntactic representations from Llama 2 models and identifies three types of syntactic neurons (sentence-level, phrase-level, and shared) through frequency analysis and statistical testing. Includes control conditions via sentence shuffling.
+
+**Note**: This repository includes Llama 2 model implementation as an example. To run syntactic analysis on other models, simply modify the MLP layer activation extraction method in the `process_text_and_accumulate_activations()` function and adapt your model paths. Refer to `correlation.py` for examples of other model architectures.
 
 **`definitions.py`**: Utility functions for statistical analysis including permutation testing, z-score analysis, significance testing, and visualization functions for plotting syntactic neuron distributions across layers.
 
