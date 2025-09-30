@@ -2,7 +2,9 @@
 
 ## Overview
 
-HFTP (Hierarchical Frequency Tagging Probe) investigates syntactic structure processing in large language models (LLMs) and analyzes their alignment with human brain neural activity. This repository contains code and data for analyzing syntactic neuron representations across different neural network architectures and comparing them with human neurological responses using stereoelectroencephalography (sEEG) data.
+![HFTP Framework](Figures/framework.jpg)
+
+HFTP (Hierarchical Frequency Tagging Probe), published at NeurIPS 2025, investigates syntactic structure processing in large language models (LLMs) and analyzes their alignment with human brain neural activity. This repository contains code and data for analyzing syntactic neuron representations across different neural network architectures and comparing them with human neurological responses using stereoelectroencephalography (sEEG) data.
 
 ## Project Structure
 
