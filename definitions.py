@@ -244,10 +244,10 @@ def permutation_significant(hdf5_paths, output_dir, split_type,
     significant_si_counts, significant_pi_counts, shared_counts = [], [], []
     significant_si_neurons, significant_pi_neurons, shared_neurons = [], [], []
 
-    if split_type == '8-natural':
+    if split_type == '8-natural' or split_type == '8-naturale' or split_type == '8-zhwiki' or split_type == '8-enwiki':
         si_freq = 4.0 / 8
         pi_freq_list = [4.0 / k for k in range(2, 8)]
-    elif split_type == '9-natural':
+    elif split_type == '9-natural' or split_type == '9-naturale':
         si_freq = 4.0 / 9
         pi_freq_list = [4.0 / k for k in range(2, 9)]
     elif split_type == '8-syllable':

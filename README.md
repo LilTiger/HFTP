@@ -2,7 +2,7 @@
 
 ## Overview
 
-![HFTP Framework](Figures/framework.jpg)
+![HFTP Framework](Figures/Framework.jpg)
 
 HFTP (Hierarchical Frequency Tagging Probe), published at NeurIPS 2025, investigates syntactic structure processing in large language models (LLMs) and analyzes their alignment with human brain neural activity. This repository contains code and data for analyzing syntactic neuron representations across different neural network architectures and comparing them with human neurological responses using stereoelectroencephalography (sEEG) data.
 
@@ -12,7 +12,7 @@ HFTP (Hierarchical Frequency Tagging Probe), published at NeurIPS 2025, investig
 HFTP/
 ├── data/                           # Experimental datasets
 ├── correlation.py                  # Model-Brain alignment analysis
-├── Llama2_synactic_corpus.py       # Syntactic corpus analysis for LLMs
+├── LLM_synactic_corpus.py          # Syntactic corpus analysis for LLMs (Llama 2 implementation provided)
 ├── definitions.py                  # Utility functions and definitions
 └── README.md                       # This file
 ```
@@ -56,9 +56,9 @@ We provide three main analysis scripts for syntactic representation extraction, 
 
 ### Syntactic Analysis with LLMs
 
-**`Llama2_synactic_corpus.py`**: Extracts syntactic representations from Llama 2 models and identifies three types of syntactic neurons (sentence-level, phrase-level, and shared) through frequency analysis and statistical testing. Includes control conditions via sentence shuffling.
+**`LLM_synactic_corpus.py`**: Extracts syntactic representations from LLMs and identifies three types of syntactic neurons (sentence-level, phrase-level, and shared) through frequency analysis and statistical testing. Includes control conditions via sentence shuffling.
 
-**Note**: This repository includes Llama 2 model implementation as an example. To run syntactic analysis on other models, simply modify the MLP layer activation extraction method in the `process_text_and_accumulate_activations()` function and adapt your model paths. Refer to `correlation.py` for examples of other model architectures.
+**Note**: This code includes Llama 2 model implementation as an example. To run syntactic analysis on other models, simply modify the MLP layer activation extraction method in the `process_text_and_accumulate_activations()` function and adapt your model paths. Refer to `correlation.py` for examples of other model architectures.
 
 **`definitions.py`**: Utility functions for statistical analysis including permutation testing, z-score analysis, significance testing, and visualization functions for plotting syntactic neuron distributions across layers.
 
@@ -117,10 +117,9 @@ Running this analysis will use the HFTP probe to identify syntactic neurons acro
 ## Results and Applications
 
 This framework enables:
-1. **Identification of syntactic neurons** in transformer-based language models
-2. **Cross-linguistic analysis** of syntactic structure representations
-3. **Layer-wise analysis** of hierarchical syntactic processing
-4. **Quantification of brain-model alignment** in syntactic processing
+1. **Identification of syntactic neurons** in transformer-based LLMs
+2. **Cross-linguistic layer-wise analysis** of hierarchical syntactic structure representations
+3. **Quantification of brain-model alignment** in syntactic processing
 
 ## Citation
 
