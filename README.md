@@ -124,6 +124,7 @@ This framework enables:
 ## Citation
 
 If you use this code or data in your research, please cite the associated publication.
+```
 @misc{an2025hierarchicalfrequencytaggingprobe,
       title={Hierarchical Frequency Tagging Probe (HFTP): A Unified Approach to Investigate Syntactic Structure Representations in Large Language Models and the Human Brain}, 
       author={Jingmin An and Yilong Song and Ruolin Yang and Nai Ding and Lingxi Lu and Yuxuan Wang and Wei Wang and Chu Zhuang and Qian Wang and Fang Fang},
@@ -133,7 +134,7 @@ If you use this code or data in your research, please cite the associated public
       primaryClass={cs.CL},
       url={https://arxiv.org/abs/2510.13255}, 
 }
-
+```
 ## Contact
 
 [Add contact information for questions or collaboration]
