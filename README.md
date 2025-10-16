@@ -6,6 +6,8 @@
 
 HFTP (Hierarchical Frequency Tagging Probe), published at NeurIPS 2025, investigates syntactic structure processing in large language models (LLMs) and analyzes their alignment with human brain neural activity. This repository contains code and data for analyzing syntactic neuron representations across different neural network architectures and comparing them with human neurological responses using stereoelectroencephalography (sEEG) data.
 
+📄 **Paper**: [arXiv:2510.13255](https://arxiv.org/abs/2510.13255)
+
 ## Project Structure
 
 ```
@@ -137,6 +139,6 @@ If you use this code or data in your research, please cite the associated public
 ```
 ## Contact
 
-[Add contact information for questions or collaboration]
+For questions or issues, please open a GitHub issue or contact [anjm@stu.pku.edu.cn](mailto:your.email@example.com).
 
 
