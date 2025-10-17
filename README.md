@@ -137,8 +137,3 @@ If you use this code or data in your research, please cite the associated public
       url={https://arxiv.org/abs/2510.13255}, 
 }
 ```
-## Contact
-
-For questions or issues, please open a GitHub issue or contact [anjm@stu.pku.edu.cn](mailto:your.email@example.com).
-
-
