@@ -60,7 +60,7 @@ We provide three main analysis scripts for syntactic representation extraction, 
 
 **`LLM_synactic_corpus.py`**: Extracts syntactic representations from LLMs and identifies three types of syntactic neurons (sentence-level, phrase-level, and shared) through frequency analysis and statistical testing. Includes control conditions via sentence shuffling.
 
-**Note**: This code includes Llama 2 model implementation as an example. To run syntactic analysis on other models, simply modify the MLP layer activation extraction method in the `process_text_and_accumulate_activations()` function and adapt your model paths. Refer to `correlation.py` for examples of other model architectures.
+**Note**: This code includes Llama 2 model implementation as an example. To run syntactic analysis on other models, please modify the MLP layer activation extraction method in the `process_text_and_accumulate_activations()` function and adapt your model paths. Refer to `correlation.py` for examples of other model architectures.
 
 **`definitions.py`**: Utility functions for statistical analysis including permutation testing, z-score analysis, significance testing, and visualization functions for plotting syntactic neuron distributions across layers.
 

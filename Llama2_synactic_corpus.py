@@ -1,3 +1,8 @@
+""""
+This code includes Llama 2 model implementation as an example.
+To run syntactic analysis on other models, please modify the MLP layer activation extraction method in the `process_text_and_accumulate_activations()` function
+and adapt your model paths.
+"""
 from transformers import AutoTokenizer, AutoModelForCausalLM
 import torch
 import ast
@@ -284,73 +289,6 @@ def clean_neuron_list(neuron_list):
 
 
 
-def compare_language_specific_neurons(output_dir, split_type):
-    """Compare overlap between significant neurons and language-specific neurons."""
-    # Determine the correct neuron file based on the split_type
-    if split_type == 'ssvo':
-        language_neurons_file = os.path.join(output_dir, 'heatmap', 'english_neurons.csv')
-    else:
-        language_neurons_file = os.path.join(output_dir, 'heatmap', 'chinese_neurons.csv')
-
-    # Load the significant_neurons count and language-specific neurons data
-    significant_count_file = os.path.join(output_dir, 'heatmap', f'{split_type}_significant_count.csv')
-    significant_count_df = pd.read_csv(significant_count_file)
-    language_neurons_df = pd.read_csv(language_neurons_file)
-
-    # Merge the two datasets based on the Layer column
-    merged_df = pd.merge(significant_count_df, language_neurons_df, on='Layer', suffixes=('_sig', '_language'))
-
-    # Function to clean and convert neuron lists from strings to sets of integers
-    def clean_neuron_list(neuron_list):
-        if isinstance(neuron_list, str):
-            neuron_list = neuron_list.strip('[]').split(',')
-            return set(int(neuron.strip().strip("'")) for neuron in neuron_list if neuron.strip())
-        elif isinstance(neuron_list, list):
-            return set(neuron_list)
-        else:
-            return set()
-
-    # Clean the neuron lists
-    merged_df['significant_si_neurons'] = merged_df['significant_si_neurons'].apply(clean_neuron_list)
-    merged_df['significant_pi_neurons'] = merged_df['significant_pi_neurons'].apply(clean_neuron_list)
-    merged_df['Neuron Indices'] = merged_df['Neuron Indices'].apply(clean_neuron_list)
-
-    # Calculate overlap between significant and language-specific neurons
-    merged_df['si_language_overlap'] = merged_df.apply(lambda row: len(row['significant_si_neurons'] & row['Neuron Indices']), axis=1)
-    merged_df['pi_language_overlap'] = merged_df.apply(lambda row: len(row['significant_pi_neurons'] & row['Neuron Indices']), axis=1)
-
-    # Visualization: Overlap of SI and PI Neurons with Language-specific Neurons across Layers
-    plt.figure(figsize=(14, 8))
-
-    # SI overlap visualization
-    plt.subplot(2, 1, 1)
-    sns.barplot(x='Layer', y='si_language_overlap', data=merged_df, hue='Layer', palette='Blues_d', legend=False)
-    plt.legend([], [], frameon=False)
-    if split_type == 'ssvo':
-        plt.title(f'Overlap of Significant $\\mathit{{si}}$ Neurons with English-specific Neurons Across Layers')
-    else:
-        plt.title(f'Overlap of Significant $\\mathit{{si}}$ Neurons with Chinese-specific Neurons Across Layers')
-    plt.xlabel('Layer')
-    plt.ylabel('Number of Overlapping Neurons')
-    plt.xticks(rotation=90)
-
-    # PI overlap visualization
-    plt.subplot(2, 1, 2)
-    sns.barplot(x='Layer', y='pi_language_overlap', data=merged_df, hue='Layer', palette='Reds_d', legend=False)
-    plt.legend([], [], frameon=False)
-    if split_type == 'ssvo':
-        plt.title(f'Overlap of Significant $\\mathit{{pi}}$ Neurons with English-specific Neurons Across Layers')
-    else:
-        plt.title(f'Overlap of Significant $\\mathit{{pi}}$ Neurons with Chinese-specific Neurons Across Layers')
-    plt.xlabel('Layer')
-    plt.ylabel('Number of Overlapping Neurons')
-    plt.xticks(rotation=90)
-
-    plt.tight_layout()
-    plt.savefig(os.path.join(output_dir, f'heatmap/statistic/{split_type}_language_specific.png'), dpi=300)
-    plt.close()
-
-
 def process_all_files(input_dir, output_dir):
     """Process all corpus files with both experimental and control strategies."""
     strategies = ["experiment", "control-B"]
@@ -377,8 +315,8 @@ def process_all_files(input_dir, output_dir):
         statistic_significance(output_dir, split_type)
 
         # Compare cross-language neurons
-        english_file = os.path.join(output_dir, 'heatmap', 'English_syntactic_corpus_significant_count.csv')
-        chinese_file = os.path.join(output_dir, 'heatmap', 'Chinese_syntactic_corpus_significant_count.csv')
+        english_file = os.path.join(output_dir, 'English_syntactic_corpus_significant_count.csv')
+        chinese_file = os.path.join(output_dir, 'Chinese_syntactic_corpus_significant_count.csv')
         compare_cross_language_neurons(english_file, chinese_file, output_dir)
 
 
@@ -395,14 +333,14 @@ llama2_models = [model for model in os.listdir(BASE_MODEL_PATH) if os.path.isdir
 
 # Device selection for GPU acceleration
 if torch.cuda.is_available():
-    device = torch.device("cuda:1")
+    device = torch.device("cuda")
 elif getattr(torch.backends, "mps", None) and torch.backends.mps.is_available():
     device = torch.device("mps")
 else:
     device = torch.device("cpu")
 input_dir = 'data'
 
-# Process each Llama2 model
+# Process each Llama 2 model
 for model_name in llama2_models:
 
     print('Processing model:', model_name)

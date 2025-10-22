@@ -26,7 +26,7 @@ def clean_neuron_list(neuron_list):
 # Function to create stacked bar chart showing proportions of exclusive si/pi neurons and shared neurons for each layer
 def statistic_significance(output_dir, split_type):
     # Define the path to the significant neurons CSV file
-    csv_file_path = os.path.join(output_dir, 'heatmap', f'{split_type}_significant_count.csv')
+    csv_file_path = os.path.join(output_dir, f'{split_type}_significant_count.csv')
 
     # Load the CSV file
     significant_count_df = pd.read_csv(csv_file_path)
@@ -94,7 +94,7 @@ def statistic_significance(output_dir, split_type):
     plt.legend(['Exclusive $phrase$ Neurons', '$sentence & phrase$ Neurons', 'Exclusive $sentence$ Neurons'], fontsize=28)
     ax.tick_params(axis='both', which='major', labelsize=24)  # Set the desired font size
     plt.tight_layout()
-    plt.savefig(f'{output_dir}/heatmap/statistic/{split_type}_stacked_bar_chart_proportions.png', dpi=300)
+    plt.savefig(f'{output_dir}/count/statistic/{split_type}_stacked_bar_chart_proportions.png', dpi=300)
     plt.show()
     # Adjusting the function to ensure that shared neurons' proportions are plotted as positive values
 
@@ -222,7 +222,7 @@ def compare_cross_language_neurons(english_file, chinese_file, output_dir):
 
     plt.tight_layout()
     # Save the plot to the output directory
-    plt.savefig(os.path.join(output_dir, 'heatmap/statistic/cross_language_neurons.png'), dpi=300)
+    plt.savefig(os.path.join(output_dir, 'count/statistic/cross_language_neurons.png'), dpi=300)
     plt.show()
 
 
@@ -318,8 +318,8 @@ def permutation_significant(hdf5_paths, output_dir, split_type,
         'shared_neurons': [list(map(str, sorted(n))) for n in shared_neurons],
         'number_of_shared_neurons': shared_counts
     })
-    os.makedirs(os.path.join(output_dir, 'heatmap'), exist_ok=True)
-    df.to_csv(f'{output_dir}/heatmap/{split_type}_permutation_significant_count.csv',
+    os.makedirs(os.path.join(output_dir, 'count'), exist_ok=True)
+    df.to_csv(f'{output_dir}/count/{split_type}_permutation_significant_count.csv',
               index=False)
 
 
@@ -329,7 +329,7 @@ def significant_neurons_zscore(hdf5_paths, output_dir, split_type,
     groups = ['experiment', 'control-B']
     hdf_files = {g: h5py.File(hdf5_paths[g], 'r') for g in groups}
 
-    csv_path = os.path.join(output_dir, 'heatmap',
+    csv_path = os.path.join(output_dir, 'count',
                             f'{split_type}_permutation_significant_count.csv')
     sig_df = pd.read_csv(csv_path)
 
@@ -396,7 +396,7 @@ def significant_neurons_zscore(hdf5_paths, output_dir, split_type,
             if n in pi_neurons:
                 pi_matrix[layer_idx, n] = pi_val
 
-    # Z-score analysis, heatmap generation, and CSV output
+    # Z-score analysis and syntactic MLP neurons output
     si_mean, si_std = np.mean(si_matrix), np.std(si_matrix)
     pi_mean, pi_std = np.mean(pi_matrix), np.std(pi_matrix)
     si_z, pi_z = (si_matrix - si_mean) / si_std, (pi_matrix - pi_mean) / pi_std
@@ -434,44 +434,6 @@ def significant_neurons_zscore(hdf5_paths, output_dir, split_type,
             highlight_pi[layer_idx, bin_idx] = np.any(np.isin(sig_pi_neurons[layer_idx],
                                                               np.arange(s, e)))
 
-    cmap = plt.cm.viridis
-    yellow = ListedColormap(cmap(np.linspace(0, 1, 512)))
-    green  = ListedColormap(cmap(np.linspace(0, .5, 512)))
-    norm_si = plt.Normalize(si_bin.min(), si_bin.max())
-    norm_pi = plt.Normalize(pi_bin.min(), pi_bin.max())
-
-    os.makedirs(os.path.join(output_dir, 'plots'), exist_ok=True)
-
-    # SI heatmap
-    fig, ax = plt.subplots(figsize=(15, 10))
-    sns.heatmap(si_bin, cmap=yellow, center=0, mask=~highlight_si, norm=norm_si,
-                xticklabels=np.arange(bin_size, num_neurons + 1, bin_size),
-                yticklabels=range(1, num_layers + 1), ax=ax,
-                cbar_kws={'label': 'Significant $si$'})
-    sns.heatmap(si_bin, cmap=green, center=0, mask=highlight_si, norm=norm_si,
-                xticklabels=np.arange(bin_size, num_neurons + 1, bin_size),
-                yticklabels=range(1, num_layers + 1), ax=ax, cbar=False)
-    ax.set_xlabel('Neuron Group'); ax.set_ylabel('Layer')
-    plt.tight_layout()
-    # plt.savefig(os.path.join(output_dir, 'plots',
-    #                          f'{split_type}_si_heatmap.png'))
-    plt.close()
-
-    # PI heatmap
-    fig, ax = plt.subplots(figsize=(15, 10))
-    sns.heatmap(pi_bin, cmap=yellow, center=0, mask=~highlight_pi, norm=norm_pi,
-                xticklabels=np.arange(bin_size, num_neurons + 1, bin_size),
-                yticklabels=range(1, num_layers + 1), ax=ax,
-                cbar_kws={'label': 'Significant $pi$'})
-    sns.heatmap(pi_bin, cmap=green, center=0, mask=highlight_pi, norm=norm_pi,
-                xticklabels=np.arange(bin_size, num_neurons + 1, bin_size),
-                yticklabels=range(1, num_layers + 1), ax=ax, cbar=False)
-    ax.set_xlabel('Neuron Group'); ax.set_ylabel('Layer')
-    plt.tight_layout()
-    # plt.savefig(os.path.join(output_dir, 'plots',
-    #                          f'{split_type}_pi_heatmap.png'))
-    plt.close()
-
     # CSV output
     df_out = pd.DataFrame({
         'Layer': range(1, num_layers + 1),
@@ -482,6 +444,6 @@ def significant_neurons_zscore(hdf5_paths, output_dir, split_type,
         'shared_neurons': [list(map(str, n)) for n in shared_neurons],
         'number_of_shared_neurons': [len(n) for n in shared_neurons]
     })
-    df_out.to_csv(f'{output_dir}/heatmap/{split_type}_significant_count.csv',
+    df_out.to_csv(f'{output_dir}/count/{split_type}_significant_count.csv',
                   index=False)
 
