@@ -28,7 +28,7 @@ The `data/` directory contains experimental datasets for syntactic analysis in L
   - **Example**: "老牛耕地", "朋友请客"
 
 - **`English_syntactic_corpus.csv`**: English four-word syntactic corpus with parallel design for cross-linguistic syntactic analysis
-  - **Example**: "fat rat sensed fear", "wood shelf holds cans"
+  - **Example**: "Old ox plows field", "A friend invites guests"
 
 ### Natural Language Corpora
 
